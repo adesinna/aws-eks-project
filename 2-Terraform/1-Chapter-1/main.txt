@@ -1,0 +1,3 @@
+When you create a terraform state file, it works like etcd in k8s
+it allows you monitor the state of the infrastructure created.
+

@@ -1,0 +1,3 @@
+VPC is a logical data center within an AWS region, it is just a configuration of
+computing resources allocated within a public cloud environment.
+
