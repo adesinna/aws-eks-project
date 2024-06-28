@@ -1,0 +1,3 @@
+Arguments can be required or optional
+Attributes format looks like resource_type.resource_name.attribute_name
+Meta-Arguments change a resource type's behavior (Example: count, for_each)
