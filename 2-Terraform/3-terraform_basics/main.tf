@@ -13,7 +13,7 @@ provider "aws" {
   profile = "default" # AWS Credentials Profile configured on your local desktop terminal  $HOME/.aws/credentials
   region  = "us-west-1"
 }
-
+sig
 # Resource Block
 resource "aws_instance" "myfirstinstance" {
   ami           = "ami-08012c0a9ee8e21c4" # ubuntu instance in the region
