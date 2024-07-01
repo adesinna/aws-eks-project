@@ -45,7 +45,7 @@ variable "mytuple" {
 variable "myobject" {
   type = object({name = string, port = number, let = list(number)})
   default = {
-    name = 'shina'
+    name = "shina"
     port = 33
     let = [22, 33, 44]
   }
