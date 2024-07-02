@@ -2,7 +2,7 @@ module "sg-bastion-server" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "5.1.2"
 
-  name        = "sg-bastion-server"
+  name        = "sg_bastion_server"
   description = "Security group for the"
   vpc_id      = module.vpc.vpc_id
 
@@ -15,7 +15,7 @@ module "sg-bastion-server" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "0.0.0.0/0"
       description = "Allow SSH from anywhere"
     }
   ]
@@ -25,7 +25,7 @@ module "sg-bastion-server" {
       from_port   = 0
       to_port     = 0
       protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "0.0.0.0/0"
       description = "Allow all outbound traffic"
     }
   ]
@@ -36,7 +36,7 @@ module "sg-private-ec2" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "5.1.2"
 
-  name        = "sg-private-ec2"
+  name        = "sg_private_ec2"
   description = "Security group for the private subnets"
   vpc_id      = module.vpc.vpc_id
 
@@ -48,7 +48,7 @@ module "sg-private-ec2" {
         from_port = 22
         to_port = 22
         protocol = "tcp"
-        source_security_group_id = module.sg-bastion.source_security_group_id
+        source_security_group_id = module.sg-bastion-server.security_group_id
         description = "Allow SSH from bastion host"
         
     }
@@ -60,7 +60,7 @@ egress_with_cidr_blocks = [
       from_port   = 0
       to_port     = 0
       protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "0.0.0.0/0"
       description = "Allow all outbound traffic"
     }
   ]
