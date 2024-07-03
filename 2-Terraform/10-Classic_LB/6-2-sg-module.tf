@@ -59,6 +59,14 @@ module "sg-private-ec2" {
         source_security_group_id = module.sg-bastion-server.security_group_id
         description = "Allow http from bastion host"
         
+    },
+    {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        source_security_group_id = module.lb-sg.security_group_id
+        description = "Allow http from bastion host"
+        
     }
 
  ]
