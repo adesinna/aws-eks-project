@@ -61,7 +61,7 @@ module "application-lb" {
           }]
           conditions = [{
             host_header = { # path/host header
-              values = [var.app1_dns_name]
+              values = [var.app1_dns_name] # ["app1", "app-1", "myapp1"] If you provide it like this it would still route it to tg1
             }
           }]
         }# End of myapp1-rule
@@ -82,7 +82,7 @@ module "application-lb" {
           }]
           conditions = [{
             host_header = {
-              values = [var.app2_dns_name] # path based
+              values = [var.app2_dns_name] # path based ["app2", "app-2", "myapp2"] If you provide it like this it would still route it to tg2
             }
           }]
         }# End of myapp2-rule Block

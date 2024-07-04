@@ -5,7 +5,7 @@ resource "aws_route53_record" "apps_dns" {
   type    = "A"
   alias { # route it here, A => ALB
    
-    name                   = module.application-lb.dns_name
+    name                   = module.application-lb.dns_name #route to the lb
     zone_id                = module.application-lb.zone_id
     evaluate_target_health = true
   }  
@@ -18,7 +18,7 @@ resource "aws_route53_record" "apps_dns_1" {
   type    = "A"
   alias { # route it here, A => ALB
    
-    name                   = module.application-lb.dns_name # 
+    name                   = module.application-lb.dns_name # route to the lb
     zone_id                = module.application-lb.zone_id
     evaluate_target_health = true
   }  
@@ -31,7 +31,7 @@ resource "aws_route53_record" "apps_dns_2" {
   type    = "A"
   alias { # route it here, A => ALB
    
-    name                   = module.application-lb.dns_name
+    name                   = module.application-lb.dns_name # route to the lb
     zone_id                = module.application-lb.zone_id
     evaluate_target_health = true
   }  
