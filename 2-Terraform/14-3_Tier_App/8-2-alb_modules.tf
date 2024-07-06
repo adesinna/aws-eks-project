@@ -65,6 +65,8 @@ module "application-lb" {
             }
           }]
         }# End of myapp1-rule
+
+
         # Rule-2: myapp2-rule
         myapp2-rule = {
           actions = [{
@@ -86,6 +88,29 @@ module "application-lb" {
             }
           }]
         }# End of myapp2-rule Block
+
+        myapp3-rule = {
+          actions = [{
+            type = "weighted-forward"
+            target_groups = [
+              {
+                target_group_key = "my_target_group_3"
+                weight           = 1
+              }
+            ]
+            stickiness = {
+              enabled  = true
+              duration = 3600
+            }
+          }]
+          conditions = [{
+            path_pattern = {
+              values = ["/*"] # path based ["app2", "app-2", "myapp2"] If you provide it like this it would still route it to tg2
+            }
+          }]
+        }# End of myapp3-rule Block
+
+
       }# End Rules Block
     }# End my-https-listener Block
   }# End Listeners Block
@@ -155,6 +180,37 @@ module "application-lb" {
       tags = local.common_tags
     }
 
+    my_target_group_3 = {  # name of tg
+      create_attachment = false 
+      # so it wont associate an autoscaling group, since we dont have one we have to associate our instance ourselves 
+
+      name_prefix                       = "tg3-"
+      protocol                          = "HTTP"
+      port                              = 8080
+      target_type                       = "instance"
+      deregistration_delay              = 10
+      load_balancing_algorithm_type     = "weighted_random"
+      load_balancing_anomaly_mitigation = "on"
+      load_balancing_cross_zone_enabled = false
+
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/login"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
+
+      protocol_version = "HTTP1"
+      # target_id        = aws_instance.this.id  
+      port             = 80
+      tags = local.common_tags
+    }
+
    }
 
 
@@ -179,3 +235,14 @@ resource "aws_lb_target_group_attachment" "my_target_group2_attachment" {
   target_id        = each.value.id # each 
   port             = 80
 }
+
+resource "aws_lb_target_group_attachment" "my_target_group3_attachment" {
+  for_each = {
+    for k, v in module.ec2_private_app3:
+      k => v
+    }
+  target_group_arn = module.application-lb.target_groups["my_target_group_3"].arn
+  target_id        = each.value.id # each 
+  port             = 8080
+}
+
