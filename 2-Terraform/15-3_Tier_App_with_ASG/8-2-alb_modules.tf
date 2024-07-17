@@ -215,34 +215,3 @@ module "application-lb" {
 
 
 }
-# It is created outside the module 
-resource "aws_lb_target_group_attachment" "my_target_group1_attachment" {
-  for_each = {
-    for k, v in module.ec2_private_app1:
-      k => v
-    }
-  target_group_arn = module.application-lb.target_groups["my_target_group_1"].arn
-  target_id        = each.value.id # each 
-  port             = 80
-}
-
-resource "aws_lb_target_group_attachment" "my_target_group2_attachment" {
-  for_each = {
-    for k, v in module.ec2_private_app2:
-      k => v
-    }
-  target_group_arn = module.application-lb.target_groups["my_target_group_2"].arn
-  target_id        = each.value.id # each 
-  port             = 80
-}
-
-resource "aws_lb_target_group_attachment" "my_target_group3_attachment" {
-  for_each = {
-    for k, v in module.ec2_private_app3:
-      k => v
-    }
-  target_group_arn = module.application-lb.target_groups["my_target_group_3"].arn
-  target_id        = each.value.id # each 
-  port             = 8080
-}
-

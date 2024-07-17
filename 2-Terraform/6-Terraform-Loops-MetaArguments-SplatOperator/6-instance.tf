@@ -18,7 +18,7 @@ resource "aws_instance" "my_instance_2" {
   user_data = file("${path.module}/data_script.sh") # file function
   key_name = var.instance_key_pair
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
-  count = 2
+  count = 2 
   tags = {
     "Name" = "myinstance-${count.index}"
   }

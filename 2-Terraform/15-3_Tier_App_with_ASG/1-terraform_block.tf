@@ -8,7 +8,11 @@ terraform {
     null = {
       source = "hashicorp/null" # to use the null resources
       version = "~> 3.0"
-    }    
-  }
+    }
+    random = {  # to generate random number because sns must be unique!
+      source = "hashicorp/random"
+      version = "~> 3.0"
+    }                
+  } 
 }
 
