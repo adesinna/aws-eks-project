@@ -46,6 +46,7 @@ module "application-lb" {
       rules = {
         # Rule-1: myapp1-rule
         myapp1-rule = {
+          priority = 1
           actions = [{
             type = "weighted-forward"
             target_groups = [
@@ -69,6 +70,7 @@ module "application-lb" {
 
         # Rule-2: myapp2-rule
         myapp2-rule = {
+          priority = 2
           actions = [{
             type = "weighted-forward"
             target_groups = [
@@ -90,6 +92,7 @@ module "application-lb" {
         }# End of myapp2-rule Block
 
         myapp3-rule = {
+          priority = 3
           actions = [{
             type = "weighted-forward"
             target_groups = [
@@ -207,11 +210,10 @@ module "application-lb" {
 
       protocol_version = "HTTP1"
       # target_id        = aws_instance.this.id  
-      port             = 80
+      port             = 8080
       tags = local.common_tags
     }
 
    }
-
 
 }

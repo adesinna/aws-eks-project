@@ -40,7 +40,7 @@ resource "aws_launch_template" "my_launch_template_app2" {
 
   vpc_security_group_ids = [module.sg-private-ec2.security_group_id]
   key_name = var.instance_keypair
-  user_data = filebase64("${path.module}/app1-install.sh")
+  user_data = filebase64("${path.module}/app2-install.sh")
   ebs_optimized = true 
   #default_version = 1
   update_default_version = true 
@@ -74,7 +74,7 @@ resource "aws_launch_template" "my_launch_template_app3" {
 
   vpc_security_group_ids = [module.sg-private-ec2.security_group_id]
   key_name = var.instance_keypair
-  user_data = filebase64("${path.module}/app3-ums-install.tmpl")
+  user_data = base64encode(templatefile("app3-ums-install.tmpl", { rds_db_endpoint = module.rds.db_instance_address }))
   ebs_optimized = true 
   #default_version = 1
   update_default_version = true 
